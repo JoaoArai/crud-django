@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <!-- Cabeçalho -->
+    <div class="text-center mb-4">
+        <h1 class="display-4 text-primary">Detalhes do Produto</h1>
+        <p class="text-muted">Aqui você pode visualizar as informações do produto selecionado.</p>
+    </div>
+
+    <!-- Detalhes do Produto -->
+    <div class="card shadow-lg border-0 rounded">
+        <div class="card-body p-5">
+            <ul class="list-unstyled">
+                <li class="mb-2"><strong>ID:</strong> <span class="text-muted">{{ produtos.id }}</span></li> 
+                <li class="mb-2"><strong>Nome:</strong> <span class="text-muted">{{ produtos.nome }}</span></li> 
+                <li class="mb-2"><strong>Descrição:</strong> <span class="text-muted">{{ produtos.descricao }}</span></li> 
+                <li class="mb-4"><strong>Valor:</strong> <span class="text-muted">R$ {{ produtos.preco|floatformat:2 }}</span></li> 
+            </ul>
+
+            <!-- Botões de Ação -->
+            <div class="d-flex justify-content-end">
+                <button onclick="window.history.back()" class="btn btn-outline-danger btn-lg me-3">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+                <button onclick="window.location.href = '/produtos/{{ produtos.id }}/update/'" class="btn btn-warning btn-lg me-3">
+                    <i class="fas fa-edit"></i> Alterar
+                </button>
+                <button onclick="window.location.href = '/produtos/{{ produtos.id }}/delete/'" class="btn btn-danger btn-lg">
+                    <i class="fas fa-trash-alt"></i> Deletar
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% else %}
+<div class="container mt-5 text-center">
+    <div class="alert alert-warning" role="alert">
+        <h1 class="display-6">Acesso Restrito</h1>
+        <p class="fs-5">Por favor, <a href="{% url 'admin:login' %}?next=/" class="alert-link">efetue login</a> para acessar esta página.</p>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

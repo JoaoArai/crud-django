@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <!-- Header de Boas-Vindas -->
+    <div class="text-center mb-5">
+        <h1 class="display-5">Bem-vindo, <strong>{{ user.first_name }}</strong>!</h1>
+        <form action="{% url 'admin:logout' %}?next=/" method="POST" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </form>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Título e Botão de Adicionar -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6">Lista de Produtos</h1>
+        <button onclick="window.location.href = '/produtos/add/';" class="btn btn-success btn-lg">
+            <i class="fas fa-plus-circle"></i> Inserir Produto Novo
+        </button>
+    </div>
+
+    <!-- Tabela de Produtos -->
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Produto</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produtos in object_list %}
+                <tr>
+                    <th scope="row" class="text-center">{{ produtos.id }}</th>
+                    <td>{{ produtos.nome }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'produto-detail' produtos.pk %}" class="btn btn-info btn-sm me-2">
+                            <i class="fas fa-info-circle"></i> Detalhes
+                        </a>
+                        <a href="{% url 'produto-update' produtos.pk %}" class="btn btn-warning btn-sm me-2">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="{% url 'produto-delete' produtos.pk %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash-alt"></i> Excluir
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="container mt-5 text-center">
+    <div class="alert alert-warning" role="alert">
+        <h1 class="display-6">Acesso Restrito</h1>
+        <p class="fs-5">Por favor, <a href="{% url 'admin:login' %}?next=/" class="alert-link">efetue login</a> para acessar esta página.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <!-- Cabeçalho -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 text-primary">Adicionar Novo Produto</h1>
+        <p class="text-muted">Preencha os detalhes do produto abaixo e salve as informações.</p>
+    </div>
+
+    <!-- Formulário -->
+    <div class="card shadow-lg border-0 rounded">
+        <div class="card-body p-5">
+            <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <!-- Campos do formulário -->
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <!-- Botões de Ação -->
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+                <button type="button" onclick="window.history.back()" class="btn btn-danger btn-lg">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="container mt-5 text-center">
+    <div class="alert alert-warning" role="alert">
+        <h1 class="display-6">Acesso Restrito</h1>
+        <p class="fs-5">Por favor, <a href="{% url 'admin:login' %}?next=/">efetue login</a> para acessar esta página.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

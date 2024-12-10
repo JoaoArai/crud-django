@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body text-center">
+            <h1 class="display-5 text-danger mb-4">Confirmar Exclusão</h1>
+            <p class="fs-5">Você tem certeza que deseja excluir o produto <strong>{{ produtos.nome }}</strong>?</p>
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg me-3">
+                    <i class="fas fa-trash-alt"></i> Confirmar Exclusão
+                </button>
+            </form>
+            <a href="{% url 'produto-list' %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times-circle"></i> Cancelar
+            </a>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container mt-5 text-center">
+    <div class="alert alert-warning" role="alert">
+        <h1 class="display-6">Acesso Restrito</h1>
+        <p class="fs-5">Por favor, <a href="{% url 'admin:login' %}?next=/" class="alert-link">efetue login</a> para acessar esta página.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
